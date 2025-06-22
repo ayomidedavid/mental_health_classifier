@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Mental Health Classifier</h1>
+        <form action="/predict" method="post">
+            <label for="Sadness">Sadness:</label>
+            <select name="Sadness" required>
+                <option value="Usually">Usually</option>
+                <option value="Sometimes">Sometimes</option>
+                <option value="Seldom">Seldom</option>
+                <option value="Most-Often">Most-Often</option>
+            </select><br>
+            <label for="Euphoric">Euphoric:</label>
+            <select name="Euphoric" required>
+                <option value="Usually">Usually</option>
+                <option value="Sometimes">Sometimes</option>
+                <option value="Seldom">Seldom</option>
+                <option value="Most-Often">Most-Often</option>
+            </select><br>
+            <label for="Exhausted">Exhausted:</label>
+            <select name="Exhausted" required>
+                <option value="Usually">Usually</option>
+                <option value="Sometimes">Sometimes</option>
+                <option value="Seldom">Seldom</option>
+                <option value="Most-Often">Most-Often</option>
+            </select><br>
+            <label for="Sleep dissorder">Sleep dissorder:</label>
+            <select name="Sleep dissorder" required>
+                <option value="Usually">Usually</option>
+                <option value="Sometimes">Sometimes</option>
+                <option value="Seldom">Seldom</option>
+                <option value="Most-Often">Most-Often</option>
+            </select><br>
+            <label for="Mood Swing">Mood Swing:</label>
+            <select name="Mood Swing" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Suicidal thoughts">Suicidal thoughts:</label>
+            <select name="Suicidal thoughts" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Anorxia">Anorxia:</label>
+            <select name="Anorxia" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Authority Respect">Authority Respect:</label>
+            <select name="Authority Respect" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Try-Explanation">Try-Explanation:</label>
+            <select name="Try-Explanation" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Aggressive Response">Aggressive Response:</label>
+            <select name="Aggressive Response" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Ignore & Move-On">Ignore & Move-On:</label>
+            <select name="Ignore & Move-On" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Nervous Break-down">Nervous Break-down:</label>
+            <select name="Nervous Break-down" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Admit Mistakes">Admit Mistakes:</label>
+            <select name="Admit Mistakes" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Overthinking">Overthinking:</label>
+            <select name="Overthinking" required>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+            </select><br>
+            <label for="Sexual Activity">Sexual Activity (1-10):</label>
+            <select name="Sexual Activity" required>
+                {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="Concentration">Concentration (1-10):</label>
+            <select name="Concentration" required>
+                {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="Optimisim">Optimisim (1-10):</label>
+            <select name="Optimisim" required>
+                {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Predict</button>
+        </form>
+        {% if prediction is defined %}
+            <div class="result">
+                <h2>Prediction: {{ prediction }}</h2>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

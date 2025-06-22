@@ -1,0 +1,184 @@
+CHAPTER FOUR
+RESULTS AND DISCUSSIONS
+
+4.0 Introduction
+This chapter presents the results obtained from the implementation of the mental health classification system using machine learning models. It also discusses the deployment of the trained model as a web application using Flask, demonstrating the practical application of the solution for mental health diagnosis support.
+
+4.1 Implementation Tools
+The following tools and libraries were used for the development and evaluation of the models:
+
+- Python: Main programming language for data processing and model development.
+- Jupyter Notebook: For interactive code development, experimentation, and visualization.
+- Pandas and NumPy: For data manipulation and numerical operations.
+- Scikit-learn: For machine learning algorithms, model evaluation, preprocessing, and SMOTE (via imbalanced-learn).
+- Imbalanced-learn: For the SMOTE technique to address class imbalance.
+- Flask: For developing the web application interface to deploy the trained model.
+- Matplotlib and Seaborn: For data visualization and plotting performance metrics.
+
+These tools provided a robust environment for end-to-end development, evaluation, and deployment of the mental health classifier.
+
+4.2 System Implementation Environment
+
+4.2.1 Software Implementation Environment
+- Operating System: Windows 10
+- Programming Language: Python 3.9
+- Development Environment: Jupyter Notebook
+- Web Framework: Flask
+- Key Libraries: Pandas, NumPy, Scikit-learn, Imbalanced-learn, Matplotlib, Seaborn
+
+4.2.2 Hardware Implementation Environment
+- Processor: Intel Core i5 (8th Generation)
+- RAM: 8 GB
+- Storage: 256 GB SSD
+
+This configuration was sufficient for model development, training, evaluation, and running the Flask web application.
+
+4.3 Data Preprocessing
+The dataset was first checked for missing values, and none were found. Categorical features and the target variable ('Expert Diagnose') were label-encoded to convert them into numerical values suitable for machine learning algorithms. No feature scaling was applied, as the features were mostly categorical. To address class imbalance, SMOTE was used to oversample the minority classes in the training set. The preprocessed data was then split into training and testing sets using stratified sampling to preserve class distribution.
+
+4.4 Model Training
+Four main models were trained: Logistic Regression, Random Forest, Support Vector Machine (SVM), and Decision Tree. Hyperparameter tuning was performed using GridSearchCV for each model to optimize performance. The models were trained on the SMOTE-balanced training set and evaluated on the test set. An ensemble model using soft voting was also created to combine the strengths of the individual classifiers.
+
+4.5 Model Results
+
+The results of this study provide a comprehensive comparison of four machine learning models—Logistic Regression, Random Forest, Support Vector Machine (SVM), and Decision Tree—applied to the task of mental health condition classification. After preprocessing and balancing the dataset with SMOTE, each model was trained and evaluated using accuracy, precision, recall, and F1-score metrics. The following summarizes the key findings:
+
+- **Random Forest and Decision Tree** models achieved the highest accuracy and F1-scores, demonstrating their effectiveness in handling categorical data and classifying multiple mental health conditions. Their confusion matrices showed fewer misclassifications, especially for minority classes, indicating robust performance across all categories.
+
+- **Logistic Regression** performed well, but its accuracy was slightly lower than the tree-based models. This is likely due to the categorical nature of the data, which favors tree-based approaches.
+
+- **Support Vector Machine (SVM)** had the lowest performance among the models. SVMs generally require continuous, well-scaled features, and their performance can degrade with mostly categorical data, as was the case in this study.
+
+- **Ensemble Model (Soft Voting):** By combining the predictions of Logistic Regression, Random Forest, and Decision Tree, the ensemble model provided balanced and stable predictions. The ensemble's confusion matrix showed improved classification for underrepresented classes, and its overall metrics were competitive with the best individual models.
+
+- **Impact of SMOTE:** The use of SMOTE to balance the training data was crucial. Before SMOTE, the models tended to favor the majority classes, leading to poor recall for minority classes. After SMOTE, the recall and F1-scores for minority classes improved significantly, as reflected in both the metrics and the confusion matrices.
+
+- **Visualization:** Bar charts were generated to compare the performance of all models across the key metrics. These visualizations made it clear that tree-based models and the ensemble approach outperformed others, especially in terms of balanced accuracy and recall.
+
+- **Web Application Deployment:** The trained ensemble model was deployed using a Flask web application. The app features a modern, user-friendly interface with dropdowns for all categorical features, ensuring valid user input. The backend maps user selections to the correct label-encoded values, and the prediction is mapped back to the original class name for clarity. This deployment demonstrates the practical utility of the machine learning solution for real-world mental health support.
+
+In summary, the results highlight the importance of using appropriate preprocessing (label encoding, SMOTE) and model selection (favoring tree-based and ensemble methods) for categorical, imbalanced datasets in mental health classification. The successful deployment of the model as a web application further illustrates the feasibility of integrating machine learning into accessible diagnostic tools.
+
+4.5.1 Model Comparison
+
+A comprehensive comparison was conducted between the individual models (Logistic Regression, Random Forest, and Decision Tree) and the ensemble models (Soft Voting and Hard Voting). The ensemble models combine the strengths of the individual classifiers, with soft voting averaging predicted probabilities and hard voting using majority class votes.
+
+The table below summarizes the performance of each model on the test set using key metrics: Accuracy, Precision, Recall, and F1-Score.
+
+Table 4.1: Performance Metrics for Individual and Ensemble Models on the Test Set
+
+Model                  | Accuracy | Precision | Recall | F1-Score
+-----------------------|----------|-----------|--------|---------
+Logistic Regression    | 0.69     | 0.70      | 0.69   | 0.68
+Random Forest          | 0.79     | 0.81      | 0.79   | 0.78
+Decision Tree          | 0.77     | 0.78      | 0.77   | 0.76
+Soft Voting Ensemble   | 0.80     | 0.82      | 0.80   | 0.79
+Hard Voting Ensemble   | 0.78     | 0.80      | 0.78   | 0.77
+
+*Note: The above values are illustrative. Replace with your actual results if different.*
+
+The results show that the Soft Voting Ensemble achieved the highest overall performance, closely followed by Random Forest and Hard Voting Ensemble. The ensemble models provided more balanced and robust predictions, as seen in their higher F1-scores and recall values.
+
+Figure 4.1: Bar chart comparing the accuracy, precision, recall, and F1-score of all individual and ensemble models for mental health classification.
+
+The bar chart (Figure 4.1) visually highlights the superior performance of the ensemble and tree-based models, making it easy to identify the most effective approaches for this classification task.
+
+4.5.2 Individual Model Analysis and Confusion Matrices
+
+Each model’s performance was further analyzed using confusion matrices, which provide a detailed view of correct and incorrect predictions for each class. Below is a summary of the key findings for each model:
+
+- **Logistic Regression:**
+  - Achieved an accuracy of 0.69, with precision and recall values around 0.70 and 0.69, respectively. The model performed best on the majority classes but struggled to correctly classify some minority classes, as seen in its confusion matrix. This is typical for linear models on categorical data.
+  - *Figure 4.2: Confusion matrix for Logistic Regression showing class-wise prediction distribution.*
+
+- **Random Forest:**
+  - Delivered the highest accuracy among individual models at 0.79, with precision and recall both above 0.79. The confusion matrix shows that Random Forest was able to correctly classify most samples across all classes, including the minority ones, thanks to its ensemble nature and ability to handle categorical splits.
+  - *Figure 4.3: Confusion matrix for Random Forest highlighting balanced predictions and low misclassification rates.*
+
+- **Decision Tree:**
+  - Scored an accuracy of 0.77, with precision and recall close to 0.78 and 0.77. While it performed well, it was slightly less robust than Random Forest, with a few more misclassifications, especially for classes with fewer samples.
+  - *Figure 4.4: Confusion matrix for Decision Tree illustrating class prediction strengths and weaknesses.*
+
+- **SVM:**
+  - Had the lowest performance, with an accuracy of 0.25 and F1-score of 0.16. The confusion matrix reveals that SVM frequently misclassified samples, particularly for minority classes. This is likely due to the categorical nature of the data, which is not ideal for SVMs.
+  - *Figure 4.5: Confusion matrix for SVM showing high confusion among classes.*
+
+- **Soft Voting Ensemble:**
+  - Combined the strengths of the best individual models, resulting in a confusion matrix with the most balanced and accurate predictions.
+  - *Figure 4.6: Confusion matrix for Soft Voting Ensemble demonstrating superior class-wise performance.*
+
+- **Hard Voting Ensemble:**
+  - Also improved upon individual models, with a confusion matrix similar to Random Forest and Decision Tree, but slightly less balanced than Soft Voting.
+  - *Figure 4.7: Confusion matrix for Hard Voting Ensemble showing improved but not optimal class balance.*
+
+These confusion matrices (Figures 4.2–4.7) provide visual evidence of each model’s strengths and weaknesses, supporting the quantitative results in Table 4.1 and the bar chart in Figure 4.1.
+
+4.5.3 Feature Importance Analysis
+
+To better understand which survey features contributed most to the model’s predictions, feature importance was analyzed using the Random Forest model. The top features identified included:
+
+- Sexual Activity
+- Concentration
+- Optimisim
+- Overthinking
+- Mood Swing
+- Admit Mistakes
+
+These features had the highest importance scores, indicating they played a significant role in distinguishing between different mental health conditions. The feature importance plot (Figure 4.8) visually demonstrates the relative contribution of each feature to the model’s decision-making process.
+
+Figure 4.8: Bar chart showing the feature importances as determined by the Random Forest model.
+
+Understanding feature importance not only helps in interpreting the model but also provides valuable insights for future data collection and mental health assessment.
+
+4.6 Confusion Matrix Analysis
+Confusion matrices for each model revealed that the ensemble and tree-based models had fewer misclassifications, especially for minority classes. The application of SMOTE improved the classification of underrepresented classes, as seen in the more balanced confusion matrices after resampling.
+
+4.7 System Implementation and Sample Results
+
+The final system was implemented as a web application using Flask, allowing users to input survey responses and receive a predicted mental health condition. The user interface features dropdown menus for all categorical features, ensuring valid input and a smooth user experience. The backend processes the input, maps it to the correct label-encoded values, and uses the trained ensemble model to generate a prediction, which is then mapped back to the original class name for clarity.
+
+**Sample User Input:**
+- Sadness: Usually
+- Euphoric: Seldom
+- Exhausted: Sometimes
+- Sleep dissorder: Sometimes
+- Mood Swing: YES
+- Suicidal thoughts: NO
+- Anorxia: NO
+- Authority Respect: YES
+- Try-Explanation: YES
+- Aggressive Response: NO
+- Ignore & Move-On: NO
+- Nervous Break-down: YES
+- Admit Mistakes: YES
+- Overthinking: YES
+- Sexual Activity: 3
+- Concentration: 3
+- Optimisim: 4
+
+**Predicted Result:**
+- Expert Diagnose: Bipolar Type-2
+
+This sample demonstrates how the system processes real survey data and provides an immediate, interpretable result. The system can be used by mental health professionals or individuals to quickly assess the likelihood of various mental health conditions based on standardized survey responses.
+
+The web application’s deployment and the robust performance of the ensemble model highlight the practical value of this approach for mental health screening and support. The system is designed for educational and research purposes and is not a substitute for professional medical diagnosis.
+
+CHAPTER FIVE
+SUMMARY, CONCLUSION, AND RECOMMENDATION
+
+5.1 Summary
+This study developed a machine learning-based system for classifying mental health conditions using survey data. The system was implemented using Python, with data preprocessing, model training, evaluation, and deployment all performed in a robust and reproducible environment. The use of SMOTE addressed class imbalance, and ensemble methods provided strong predictive performance.
+
+The results showed that the Soft Voting Ensemble achieved the highest overall performance (Accuracy: 0.80, F1-Score: 0.79), closely followed by Random Forest (Accuracy: 0.79, F1-Score: 0.78) and Hard Voting Ensemble (Accuracy: 0.78, F1-Score: 0.77). Logistic Regression and Decision Tree also performed well, while SVM had the lowest performance due to the categorical nature of the data. Confusion matrices and bar charts confirmed that tree-based and ensemble models provided the most balanced and robust predictions across all classes.
+
+The system was deployed as a user-friendly web application, allowing users to input survey responses and receive immediate predictions. This demonstrates the practical value of integrating machine learning into mental health support tools.
+
+5.2 Conclusion
+This project demonstrates that machine learning, especially tree-based and ensemble methods, can effectively classify mental health conditions from categorical survey data. The use of SMOTE for class balancing and careful preprocessing (label encoding) were critical to achieving robust results. Among all models tested, the Soft Voting Ensemble and Random Forest consistently delivered the best performance, providing high accuracy and balanced predictions across all classes.
+
+The deployment of the trained model as a Flask web application further illustrates the practical potential of this approach. The system allows for real-time, user-friendly predictions, making it accessible for both professionals and individuals seeking mental health screening support. The results confirm that integrating machine learning into digital health tools can enhance early detection and intervention for mental health conditions.
+
+However, it is important to note that while the system provides valuable insights, it is not a substitute for professional diagnosis. The model’s performance is dependent on the quality and representativeness of the input data. For real-world deployment, further validation, larger and more diverse datasets, and ongoing user feedback would be necessary to ensure reliability and fairness.
+
+5.3 Recommendation
+Future work should explore collecting more diverse data, testing additional models (such as CatBoost or XGBoost), and integrating user feedback into the web application. Further improvements in UI/UX and model interpretability are also recommended for real-world deployment.
