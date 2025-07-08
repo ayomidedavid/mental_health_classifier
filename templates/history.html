@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History - Mental Health Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/predict">Predict</a> |
+        <a href="/history">History</a> |
+        <a href="/contact">Contact</a> |
+        {% if session.username %}
+        <span>Welcome, {{ session.username }}!</span> <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/login">Login</a> | <a href="/signup">Signup</a>
+        {% endif %}
+    </nav>
+    <main>
+        <h2>Your Prediction History</h2>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Input Data</th>
+                <th>Prediction</th>
+            </tr>
+            {% for h in history %}
+            <tr>
+                <td>{{ h.id }}</td>
+                <td>{{ h.input_data }}</td>
+                <td>{{ h.prediction }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <a href="/">Back to Menu</a>
+    </main>
+</body>
+</html>

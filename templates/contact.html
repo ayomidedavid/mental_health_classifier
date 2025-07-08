@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact - Mental Health Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/predict">Predict</a> |
+        <a href="/history">History</a> |
+        <a href="/contact">Contact</a> |
+        {% if session.username %}
+        <span>Welcome, {{ session.username }}!</span> <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/login">Login</a> | <a href="/signup">Signup</a>
+        {% endif %}
+    </nav>
+    <main>
+        <h2>Contact Mental Health Experts</h2>
+        <ul>
+            <li>Dr. Jane Doe - Psychiatrist - jane.doe@email.com - 0801-234-5678</li>
+            <li>Dr. John Smith - Clinical Psychologist - john.smith@email.com - 0802-345-6789</li>
+            <li>Mental Health Helpline: 0800-123-4567</li>
+        </ul>
+        <a href="/">Back to Menu</a>
+    </main>
+</body>
+</html>

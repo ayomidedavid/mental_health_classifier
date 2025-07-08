@@ -1,10 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body {
-    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
     font-family: 'Poppins', Arial, sans-serif;
+    background: #f7f7f7;
     margin: 0;
     padding: 0;
+}
+nav {
+    background: #4a90e2;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+    margin-bottom: 2em;
+}
+nav a {
+    color: #fff;
+    margin: 0 1em;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+nav a:hover {
+    color: #ffd700;
+}
+main {
+    max-width: 900px;
+    margin: 2em auto;
+    padding: 2em;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 .container {
     max-width: 480px;
@@ -21,6 +46,9 @@ h1 {
     margin-bottom: 28px;
     letter-spacing: 1px;
 }
+h2, h3 {
+    color: #4a90e2;
+}
 label {
     display: block;
     margin-top: 18px;
@@ -28,7 +56,7 @@ label {
     font-size: 15px;
     font-weight: 500;
 }
-select, input[type="text"] {
+select, input[type="text"], input, select {
     width: 100%;
     padding: 10px;
     margin-top: 7px;
@@ -62,6 +90,50 @@ button {
 button:hover {
     background: linear-gradient(90deg, #48c6ef 0%, #6c63ff 100%);
 }
+.card-container {
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+    margin-top: 2em;
+}
+.card {
+    background: #e3f0fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    padding: 2em 1.5em;
+    width: 250px;
+    text-align: center;
+    transition: box-shadow 0.2s;
+}
+.card:hover {
+    box-shadow: 0 4px 16px rgba(74,144,226,0.15);
+}
+.card h2 {
+    margin-top: 0;
+}
+.btn {
+    display: inline-block;
+    margin-top: 1em;
+    padding: 0.5em 1.5em;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.btn:hover {
+    background: #357ab8;
+}
+form {
+    margin: 2em 0;
+    background: #f9f9f9;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
 .result {
     margin-top: 28px;
     padding: 18px;
@@ -73,4 +145,21 @@ button:hover {
     font-size: 18px;
     font-weight: 500;
     letter-spacing: 0.5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2em 0;
+}
+th, td {
+    padding: 0.75em;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+th {
+    background: #e3f0fa;
+}
+ul {
+    list-style: disc inside;
+    margin: 1em 0 1em 2em;
 }

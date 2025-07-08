@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup - Mental Health Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/predict">Predict</a> |
+        <a href="/history">History</a> |
+        <a href="/contact">Contact</a> |
+        {% if session.username %}
+        <span>Welcome, {{ session.username }}!</span> <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/login">Login</a> | <a href="/signup">Signup</a>
+        {% endif %}
+    </nav>
+    <main>
+        <h2>Signup</h2>
+        <form method="post">
+            <label>Username:</label><input type="text" name="username" required><br>
+            <label>Password:</label><input type="password" name="password" required><br>
+            <button type="submit" class="btn">Signup</button>
+        </form>
+        <p>Already have an account? <a href="/login">Login here</a>.</p>
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+          {% endif %}
+        {% endwith %}
+    </main>
+</body>
+</html>

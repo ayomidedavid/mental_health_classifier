@@ -1,8 +1,20 @@
-from flask import Flask, render_template, request
+import pymysql
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import pickle
 import numpy as np
+import os
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+# MySQL connection config (update with your XAMPP credentials)
+DB_HOST = 'localhost'
+DB_USER = 'root'
+DB_PASSWORD = ''
+DB_NAME = 'mental_health'
+
+def get_db_connection():
+    return pymysql.connect(host=DB_HOST, user=DB_USER, password=DB_PASSWORD, database=DB_NAME, cursorclass=pymysql.cursors.DictCursor)
 
 # Load the trained model
 with open('best_model.pkl', 'rb') as f:
@@ -30,7 +42,6 @@ category_maps = {
     'Optimisim': None
 }
 
-# Add this mapping for the target class
 class_map = {
     0: 'Bipolar Type-1',
     1: 'Bipolar Type-2',
@@ -39,22 +50,91 @@ class_map = {
 }
 
 @app.route('/')
-def home():
-    return render_template('index.html')
+def menu():
+    return render_template('menu.html')
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    input_features = []
-    for feature in category_maps:
-        val = request.form.get(feature)
-        if category_maps[feature] is None:
-            input_features.append(int(val))
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            cursor.execute('SELECT * FROM users WHERE username=%s', (username,))
+            if cursor.fetchone():
+                flash('Username already exists!')
+                conn.close()
+                return redirect(url_for('signup'))
+            cursor.execute('INSERT INTO users (username, password) VALUES (%s, %s)', (username, password))
+            conn.commit()
+        conn.close()
+        flash('Signup successful! Please login.')
+        return redirect(url_for('login'))
+    return render_template('signup.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            cursor.execute('SELECT * FROM users WHERE username=%s AND password=%s', (username, password))
+            user = cursor.fetchone()
+        conn.close()
+        if user:
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            return redirect(url_for('menu'))
         else:
-            input_features.append(category_maps[feature][val])
-    features = np.array(input_features).reshape(1, -1)
-    pred_idx = model.predict(features)[0]
-    prediction = class_map.get(pred_idx, str(pred_idx))
-    return render_template('index.html', prediction=prediction)
+            flash('Invalid credentials!')
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    prediction = None
+    if request.method == 'POST':
+        input_features = []
+        input_dict = {}
+        for feature in category_maps:
+            val = request.form.get(feature)
+            input_dict[feature] = val
+            if category_maps[feature] is None:
+                input_features.append(int(val))
+            else:
+                input_features.append(category_maps[feature][val])
+        features = np.array(input_features).reshape(1, -1)
+        pred_idx = model.predict(features)[0]
+        prediction = class_map.get(pred_idx, str(pred_idx))
+        # Save to history
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            cursor.execute('INSERT INTO history (user_id, input_data, prediction) VALUES (%s, %s, %s)', (session['user_id'], str(input_dict), prediction))
+            conn.commit()
+        conn.close()
+    return render_template('predict.html', prediction=prediction)
+
+@app.route('/history')
+def history():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    conn = get_db_connection()
+    with conn.cursor() as cursor:
+        cursor.execute('SELECT * FROM history WHERE user_id=%s', (session['user_id'],))
+        user_history = cursor.fetchall()
+    conn.close()
+    return render_template('history.html', history=user_history)
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

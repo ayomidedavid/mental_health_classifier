@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - Mental Health Classifier</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/predict">Predict</a> |
+        <a href="/history">History</a> |
+        <a href="/contact">Contact</a> |
+        {% if session.username %}
+        <span>Welcome, {{ session.username }}!</span> <a href="/logout">Logout</a>
+        {% else %}
+        <a href="/login">Login</a> | <a href="/signup">Signup</a>
+        {% endif %}
+    </nav>
+    <main>
+        <h1>Welcome to the Mental Health Classifier</h1>
+        <div class="card-container">
+            <div class="card">
+                <h2>Take Assessment</h2>
+                <p>Answer questions and get your mental health prediction.</p>
+                <a href="/predict" class="btn">Start</a>
+            </div>
+            <div class="card">
+                <h2>View History</h2>
+                <p>See your previous predictions and inputs.</p>
+                <a href="/history" class="btn">History</a>
+            </div>
+            <div class="card">
+                <h2>Contact Experts</h2>
+                <p>Find contact information for mental health professionals.</p>
+                <a href="/contact" class="btn">Contact</a>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
