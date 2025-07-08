@@ -99,7 +99,37 @@ def logout():
 def predict():
     if 'user_id' not in session:
         return redirect(url_for('login'))
+
+    # ✅ Move category_maps to the top
+    category_maps = {
+        'Sadness': {'Most-Often': 0, 'Seldom': 1, 'Sometimes': 2, 'Usually': 3},
+        'Euphoric': {'Most-Often': 0, 'Seldom': 1, 'Sometimes': 2, 'Usually': 3},
+        'Exhausted': {'Most-Often': 0, 'Seldom': 1, 'Sometimes': 2, 'Usually': 3},
+        'Sleep dissorder': {'Most-Often': 0, 'Seldom': 1, 'Sometimes': 2, 'Usually': 3},
+        'Mood Swing': {'NO': 0, 'YES': 1},
+        'Suicidal thoughts': {'NO': 0, 'YES': 1},
+        'Anorxia': {'NO': 0, 'YES': 1},
+        'Authority Respect': {'NO': 0, 'YES': 1},
+        'Try-Explanation': {'NO': 0, 'YES': 1},
+        'Aggressive Response': {'NO': 0, 'YES': 1},
+        'Ignore & Move-On': {'NO': 0, 'YES': 1},
+        'Nervous Break-down': {'NO': 0, 'YES': 1},
+        'Admit Mistakes': {'NO': 0, 'YES': 1},
+        'Overthinking': {'NO': 0, 'YES': 1},
+        'Sexual Activity': None,
+        'Concentration': None,
+        'Optimisim': None
+    }
+
+    class_map = {
+        0: 'Bipolar Type-1',
+        1: 'Bipolar Type-2',
+        2: 'Depression',
+        3: 'Normal'
+    }
+
     prediction = None
+
     if request.method == 'POST':
         input_features = []
         input_dict = {}
@@ -110,16 +140,24 @@ def predict():
                 input_features.append(int(val))
             else:
                 input_features.append(category_maps[feature][val])
+
         features = np.array(input_features).reshape(1, -1)
         pred_idx = model.predict(features)[0]
         prediction = class_map.get(pred_idx, str(pred_idx))
+
         # Save to history
         conn = get_db_connection()
         with conn.cursor() as cursor:
-            cursor.execute('INSERT INTO history (user_id, input_data, prediction) VALUES (%s, %s, %s)', (session['user_id'], str(input_dict), prediction))
+            cursor.execute(
+                'INSERT INTO history (user_id, input_data, prediction) VALUES (%s, %s, %s)',
+                (session['user_id'], str(input_dict), prediction)
+            )
             conn.commit()
         conn.close()
-    return render_template('predict.html', prediction=prediction)
+
+    # ✅ Pass category_maps into template
+    return render_template('predict.html', prediction=prediction, category_maps=category_maps)
+
 
 @app.route('/history')
 def history():

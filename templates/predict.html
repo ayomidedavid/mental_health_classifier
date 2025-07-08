@@ -36,9 +36,9 @@
             <button type="submit" class="btn">Predict</button>
         </form>
         {% if prediction %}
-            <h3>Prediction: {{ prediction }}</h3>
+    <h3>The model has analyzed the input and predicted that the individual is likely experiencing: <strong>{{ prediction }}</strong> state.</h3>
         {% endif %}
-        <a href="/">Back to Menu</a>
+
     </main>
 </body>
 </html>
